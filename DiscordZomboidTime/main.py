@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import logging
-logging.basicConfig(filename='app.log', filemode='w', level=logging.info, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 #logging.getLogger('telethon').setLevel(level=logging.WARNING)
 #logger = logging.getLogger(__name__)
 
