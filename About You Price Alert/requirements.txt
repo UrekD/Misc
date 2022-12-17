@@ -1,0 +1,7 @@
+httpx==0.23.0
+nextcord==2.3,2
+python-dotenv==0.20.0
+SQLAlchemy==1.4.45
+asyncio==3.4.3
+mysql-connector-python==8.0.31
+aiohttp==3.8.3
