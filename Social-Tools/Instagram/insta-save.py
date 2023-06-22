@@ -30,7 +30,7 @@ logger.addHandler(file_handler)
 
 logger.info("Starting up")
 
-USERNAME = os.getenv("USERNAME")
+USERNAME = os.getenv("USERNAMEX")
 PASSWORD = os.getenv("PASSWORD")
 
 def login_user():
@@ -39,48 +39,28 @@ def login_user():
     or the provided username and password.
     """
 
-    cl = Client()
-    session = None
-    if os.path.exists("session.json"):
-        session = cl.load_settings("session.json")
-
-    login_via_session = False
-    login_via_pw = False
-
-    if session:
+    client = Client()
+    session_path = "session.json"
+    if os.path.exists(session_path):
         try:
-            cl.set_settings(session)
-            cl.login(USERNAME, PASSWORD)
-
-            # check if session is valid
-            try:
-                cl.get_timeline_feed()
-            except LoginRequired:
-                logger.info("Session is invalid, need to login via username and password")
-
-                old_session = cl.get_settings()
-
-                # use the same device uuids across logins
-                cl.set_settings({})
-                cl.set_uuids(old_session["uuids"])
-
-                cl.login(USERNAME, PASSWORD)
-            login_via_session = True
+            client.load_settings(session_path)
+            client.login(USERNAME, PASSWORD)
+            logger.info("Logged in using session information")
+            return client
         except Exception as e:
-            logger.info("Couldn't login user using session information: %s" % e)
-
-    if not login_via_session:
+            logger.info("Couldn't load session or login: %s" % e)
+    else:
         try:
-            logger.info("Attempting to login via username and password. username: %s" % USERNAME)
-            if cl.login(USERNAME, PASSWORD):
-                login_via_pw = True
-                cl.dump_settings("session.json")
+            client.login(USERNAME, PASSWORD)
+            client.dump_settings(session_path)
+            logger.info("Logged in using username and password")
+            return client
         except Exception as e:
             logger.info("Couldn't login user using username and password: %s" % e)
 
-    if not login_via_pw and not login_via_session:
-        raise Exception("Couldn't login user with either password or session")
-    return cl
+    raise Exception("Couldn't login user with either password or session")
+
+    
 # Get the user's saved posts
 
 cl = login_user()
