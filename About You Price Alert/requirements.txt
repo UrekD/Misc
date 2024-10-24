@@ -3,5 +3,5 @@ nextcord==2.6.0
 python-dotenv==0.20.0
 SQLAlchemy==1.4.45
 asyncio==3.4.3
-mysql-connector-python==8.0.31
+mysql-connector-python==9.1.0
 aiohttp==3.9.4
