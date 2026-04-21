@@ -1,2 +1,2 @@
 instagrapi==1.17.10
-python-dotenv==0.20.0
+python-dotenv==1.2.2
